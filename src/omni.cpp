@@ -1,5 +1,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
+#include "geometry_msgs/PoseStamped.h"
+
 
 #include <string.h>
 #include <stdio.h>
@@ -50,7 +52,7 @@ class PhantomROS {
 public:
 	ros::NodeHandle n;
 	ros::Publisher joint_pub;
-
+	ros::Publisher cursor_location_pub;
 	ros::Publisher button_pub;
 	ros::Subscriber haptic_sub;
 	std::string omni_name;
@@ -71,6 +73,12 @@ public:
 		std::ostringstream button_topic;
 		button_topic << omni_name << "_button";
 		button_pub = n.advertise<phantom_omni::PhantomButtonEvent>(button_topic.str(), 100);
+
+		// Publish cursor location on NAME_Cursor_location. --> change this to cursor pose later
+		std::ostringstream cursor_location_topic;
+		cursor_location_topic << omni_name << "_cursor_location";
+		cursor_location_pub = n.advertise<geometry_msgs::PoseStamped>(cursor_location_topic.str(), 1);
+
 
 		// Subscribe to NAME_force_feedback.
 		std::ostringstream force_feedback_topic;
