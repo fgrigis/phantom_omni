@@ -17,7 +17,7 @@
 #include "phantom_omni/OmniFeedback.h"
 #include <pthread.h>
 
-#define GRAVITY_COMPENSATION_FORCE 0.75
+#define GRAVITY_COMPENSATION_FORCE 0.71
 
 
 int calibrationStyle;
@@ -189,7 +189,7 @@ HDCallbackCode HDCALLBACK omni_state_callback(void *pUserData) {
 	AppliedForce[1] = omni_state->masterForces[1] + GRAVITY_COMPENSATION_FORCE;
 	AppliedForce[2] = omni_state->masterForces[2];
 
-	hdSetDoublev(HD_CURRENT_FORCE, omni_state->force);
+	hdSetDoublev(HD_CURRENT_FORCE, AppliedForce);
 
 
 	//Get buttons
