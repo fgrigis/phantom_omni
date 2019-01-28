@@ -17,6 +17,9 @@
 #include "phantom_omni/OmniFeedback.h"
 #include <pthread.h>
 
+#define GRAVITY_COMPENSATION_FORCE 0.75
+
+
 int calibrationStyle;
 
 struct OmniState {
@@ -38,6 +41,8 @@ struct OmniState {
 	int buttons_prev[2];
 	bool lock;
 	hduVector3Dd lock_pos;
+
+	double masterForces[3] = {0,0,0};
 };
 
 class PhantomROS {
@@ -178,7 +183,14 @@ HDCallbackCode HDCALLBACK omni_state_callback(void *pUserData) {
 				- 0.001 * omni_state->velocity;
 	}
 
+	hduVector3Dd AppliedForce;
+
+	AppliedForce[0] = omni_state->masterForces[0];
+	AppliedForce[1] = omni_state->masterForces[1] + GRAVITY_COMPENSATION_FORCE;
+	AppliedForce[2] = omni_state->masterForces[2];
+
 	hdSetDoublev(HD_CURRENT_FORCE, omni_state->force);
+
 
 	//Get buttons
 	int nButtons = 0;
