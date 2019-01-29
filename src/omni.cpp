@@ -74,7 +74,7 @@ public:
 		button_topic << omni_name << "_button";
 		button_pub = n.advertise<phantom_omni::PhantomButtonEvent>(button_topic.str(), 100);
 
-		// Publish cursor location on NAME_Cursor_location. --> change this to cursor pose later
+		// Publish cursor location on NAME_Cursor_location. --> TODO: change this to cursor pose later
 		std::ostringstream cursor_location_topic;
 		cursor_location_topic << omni_name << "_cursor_location";
 		cursor_location_pub = n.advertise<geometry_msgs::PoseStamped>(cursor_location_topic.str(), 1);
@@ -122,6 +122,17 @@ public:
 		state->lock_pos[1] = omnifeed->position.y;
 		state->lock_pos[2] = omnifeed->position.z;
 	}
+
+	void publish_cursor_location() {
+        geometry_msgs::PoseStamped cursorPose;
+        cursorPose.header.stamp = ros::Time::now();
+        cursorPose.pose.position.x = state->position[0];
+        cursorPose.pose.position.y = state->position[1];
+        cursorPose.pose.position.z = state->position[2];
+
+        cursor_location_pub.publish(cursorPose);
+
+    };
 
 	void publish_omni_state() {
 		sensor_msgs::JointState joint_state;
@@ -269,6 +280,7 @@ void *ros_publish(void *ptr) {
 
 	while (ros::ok()) {
 		omni_ros->publish_omni_state();
+		omni_ros->publish_cursor_location();
 		loop_rate.sleep();
 	}
 	return NULL;
