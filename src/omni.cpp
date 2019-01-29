@@ -126,9 +126,21 @@ public:
 	void publish_cursor_location() {
         geometry_msgs::PoseStamped cursorPose;
         cursorPose.header.stamp = ros::Time::now();
-        cursorPose.pose.position.x = state->position[0];
-        cursorPose.pose.position.y = state->position[1];
-        cursorPose.pose.position.z = state->position[2];
+       // cursorPose.pose.position.x = state->position[0];
+       // cursorPose.pose.position.y = state->position[1];
+       // cursorPose.pose.position.z = state->position[2];
+
+        cursorPose.pose.position.x = 0;
+        cursorPose.pose.position.y = 0;
+        cursorPose.pose.position.z = 0;
+
+        float roh = 1; // used to calculate vector that represents
+
+        cursorPose.pose.orientation.x = roh*sin(state->thetas[4])*cos(state->thetas[5]);
+        cursorPose.pose.orientation.y = roh*sin(state->thetas[4])*sin(state->thetas[5]);
+        cursorPose.pose.orientation.z = roh*cos(state->thetas[4]);
+
+        cursorPose.header.frame_id = "/base";
 
         cursor_location_pub.publish(cursorPose);
 
@@ -146,11 +158,11 @@ public:
 		joint_state.name[2] = "elbow";
 		joint_state.position[2] = state->thetas[3];
 		joint_state.name[3] = "wrist1";
-		joint_state.position[3] = -state->thetas[4] + M_PI;
+		joint_state.position[3] = -state->thetas[4] + M_PI; // TODO find correct encoder Mapping  (- 14*(M_PI/180); //added -15*(M_PI/180) to compensate encoder offset seen in rviz)
 		joint_state.name[4] = "wrist2";
-		joint_state.position[4] = -state->thetas[5] - 3*M_PI/4;
+		joint_state.position[4] = -state->thetas[5] - 3*M_PI/4 + 18*(M_PI/180); // TODO find correct encoder Mapping (added -18*(M_PI/180) to compensate encoder offset seen in rviz)
 		joint_state.name[5] = "wrist3";
-		joint_state.position[5] = -state->thetas[6] - M_PI;
+		joint_state.position[5] = -state->thetas[6] - M_PI + 18*(M_PI/180); //
 		joint_pub.publish(joint_state);
 
 		if ((state->buttons[0] != state->buttons_prev[0])
