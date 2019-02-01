@@ -188,11 +188,15 @@ public:
         double yaw =0, pitch =0, roll =0;
         tf::Matrix3x3(quat).getEulerZYX(yaw, pitch, roll);
 
+
+
 		rotMatEuler << 	cos(pitch) * cos(yaw), cos(pitch) * sin(yaw), (-1)* sin(pitch),
 				sin(roll) * sin(pitch) * cos(yaw)- cos(roll) * sin(yaw), sin(roll) * sin(pitch) * sin(yaw)+ cos(roll) * cos(yaw), sin(roll) * cos(pitch),
 				cos(roll)* sin(pitch) * cos(yaw) + sin(roll) * sin(yaw),cos(roll)* sin(pitch) * sin(yaw) - sin(roll) * cos(yaw), cos(roll)* cos(pitch);
 
-        magFieldBase_Eigen = rotMatEuler * desFieldStylus;
+        magFieldBase_Eigen = rotMatEuler * (-1)*desFieldStylus;
+
+
 
         magFieldBase_msg.x = magFieldBase_Eigen(0);
         magFieldBase_msg.y = magFieldBase_Eigen(1);
