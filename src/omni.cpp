@@ -106,7 +106,8 @@ public:
 		cursor_location_pub = n.advertise<geometry_msgs::PoseStamped>(cursor_location_topic.str(), 1);
 
         std::ostringstream target_mf_topic;
-        target_mf_topic << "const_curv_sim/field_at_magnet";
+        //target_mf_topic << "const_curv_sim/field_at_magnet";
+        target_mf_topic << "/vsc/field_at_tip";
         target_mf_pub_ = n.advertise<mag_msgs::FieldStamped>(target_mf_topic.str(),1);
 
 
