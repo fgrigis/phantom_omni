@@ -182,7 +182,7 @@ public:
         }
 
 
-		desFieldStylus << 1,0,0;
+		desFieldStylus << 0.2,0,0;
 
         tf::Quaternion quat;
         quat = transformStylusToBase.getRotation();
@@ -196,6 +196,12 @@ public:
 				cos(roll)* sin(pitch) * cos(yaw) + sin(roll) * sin(yaw),cos(roll)* sin(pitch) * sin(yaw) - sin(roll) * cos(yaw), cos(roll)* cos(pitch);
 
         magFieldBase_Eigen = rotMatEuler * (-1)*desFieldStylus;
+
+
+        //norm vector; Magnitude corresponds to desired field strength in Tesla. Max is 0.040 T (40 mTesla).
+        //try to work with 'as low as possible'
+
+		//magFieldBase_Eigen * (0.8 / magFieldBase_Eigen.norm()); // setting field (aka vector length) to static 0.02 T for first tests.
 
 
 
