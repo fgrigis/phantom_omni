@@ -182,7 +182,7 @@ public:
         }
 
 
-		desFieldStylus << 0.2,0,0;
+		desFieldStylus << 0.1,0,0;
 
         tf::Quaternion quat;
         quat = transformStylusToBase.getRotation();
