@@ -9,8 +9,8 @@
         <node name="omni1_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
 	  <remap from="joint_states" to="omni1_joint_states" />
 	  <remap from="robot_description" to="omni_robot_description" />
-      <!--<remap from="/omni1_target_mf" to ="/const_curv_sim/field_at_magnet"/>-->
-      <remap from="const_curv_sim/field_at_magnet" to ="/vsc/field_at_tip"/>
+      <!--<remap from="/omni1_target_mf" to ="/const_curv_sim/field_at_magnet"/>
+      <remap from="const_curv_sim/field_at_magnet" to ="/vsc/field_at_tip"/>-->
 
           </node>
       </launch>
