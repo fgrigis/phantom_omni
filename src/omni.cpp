@@ -69,20 +69,6 @@ public:
 	ros::Subscriber haptic_sub;
 	std::string omni_name;
 
-    ////tf::TransformListener tfListener;
-    ////tf::StampedTransform transformStylusToBase;
-
-	////Eigen::Quaterniond rotationalData;
-	////Eigen::Matrix3d rotMatEuler;
-	////Eigen::Vector3d desFieldStylus; //this is just the orientation of the x axis of the frame of the stylus of the phantom omni in the stylus frame. Gets transformed into base frame
-	////Eigen::Vector3d magFieldBase_Eigen;
-
-    //tf2_ros::Buffer tfBuffer;
-    //tf2_ros::TransformListener tfListener;
-    //geometry_msgs::TransformStamped transformStamped;
-    //geometry_msgs::Vector3 desMagField; //this is just the orientation of the x axis of the frame of the stylus of the phantom omni in the stylus frame. Gets transformed into base frame
-    ////geometry_msgs::Vector3 magFieldBase_msg; // this is the transformed desMgField vector aka stylus orientation represented in base frame
-
 	OmniState *state;
 
 	void init(OmniState *s) {
@@ -104,12 +90,6 @@ public:
 		std::ostringstream cursor_location_topic;
 		cursor_location_topic << omni_name << "_cursor_location";
 		cursor_location_pub = n.advertise<geometry_msgs::PoseStamped>(cursor_location_topic.str(), 1);
-
-        ////std::ostringstream target_mf_topic;
-        //////target_mf_topic << "const_curv_sim/field_at_magnet";
-        ////target_mf_topic << "/desired_field";
-        ////target_mf_pub_ = n.advertise<mag_msgs::FieldStamped>(target_mf_topic.str(),1);
-
 
 		// Subscribe to NAME_force_feedback.
 		std::ostringstream force_feedback_topic;
@@ -156,80 +136,11 @@ public:
 
 	void publish_cursor_location() {
         geometry_msgs::PoseStamped cursorPose;
+        
         cursorPose.header.stamp = ros::Time::now();
-       // cursorPose.pose.position.x = state->position[0];
-       // cursorPose.pose.position.y = state->position[1];
-       // cursorPose.pose.position.z = state->position[2];
-
-
-        cursorPose.pose.position.x = 0;
-        cursorPose.pose.position.y = 0;
-        cursorPose.pose.position.z = 0;
-
-        float roh = 1; // used to calculate vector that represents
-
-        //cursorPose.pose.orientation.x = roh*sin(state->thetas[4])*cos(state->thetas[5]);
-        //cursorPose.pose.orientation.y = roh*sin(state->thetas[4])*sin(state->thetas[5]);
-        //cursorPose.pose.orientation.z = roh*cos(state->thetas[4]);
-
-        ////try{
-        ////    tfListener.lookupTransform("stylus", "base",
-        ////                             ros::Time(0), transformStylusToBase);
-        ////}
-        ////catch (tf::TransformException ex){
-        ////    ROS_ERROR("%s",ex.what());
-        ////    ros::Duration(1.0).sleep();
-        ////}
-
-
-		////desFieldStylus << 0.1,0,0;
-
-        ////tf::Quaternion quat;
-        ////quat = transformStylusToBase.getRotation();
-        ////double yaw =0, pitch =0, roll =0;
-        ////tf::Matrix3x3(quat).getEulerZYX(yaw, pitch, roll);
-
-
-
-		////rotMatEuler << 	cos(pitch) * cos(yaw), cos(pitch) * sin(yaw), (-1)* sin(pitch),
-		////		sin(roll) * sin(pitch) * cos(yaw)- cos(roll) * sin(yaw), sin(roll) * sin(pitch) * sin(yaw)+ cos(roll) * cos(yaw), sin(roll) * cos(pitch),
-		////		cos(roll)* sin(pitch) * cos(yaw) + sin(roll) * sin(yaw),cos(roll)* sin(pitch) * sin(yaw) - sin(roll) * cos(yaw), cos(roll)* cos(pitch);
-
-        ////magFieldBase_Eigen = rotMatEuler * (-1)*desFieldStylus;
-
-
-        //norm vector; Magnitude corresponds to desired field strength in Tesla. Max is 0.040 T (40 mTesla).
-        //try to work with 'as low as possible'
-
-		//magFieldBase_Eigen * (0.8 / magFieldBase_Eigen.norm()); // setting field (aka vector length) to static 0.02 T for first tests.
-
-
-
-        ////magFieldBase_msg.x = magFieldBase_Eigen(0);
-        ////magFieldBase_msg.y = magFieldBase_Eigen(1);
-        ////magFieldBase_msg.z = magFieldBase_Eigen(2);
-
-        ////mag_msgs::FieldStamped mf_target;
-        ////mf_target.header.frame_id = "mns";
-        ////mf_target.header.stamp = ros::Time::now();
-        ////mf_target.field.vector.x = magFieldBase_msg.x;
-        ////mf_target.field.vector.y = magFieldBase_msg.y;
-        ////mf_target.field.vector.z = magFieldBase_msg.z;
-        ////mf_target.field.position.x = 0.0;
-        ////mf_target.field.position.y = 0.0;
-       //// ////mf_target.field.position.z = 0.05;
-
-        ////target_mf_pub_.publish(mf_target);
-
-
-        //const Eigen::Vector3d magFieldBase_Eigen_= magFieldBase_Eigen;
-
-        //tf::vectorEigenToMsg(&magFieldBase_Eigen_,magFieldBase_msg);
-
-        //quaternionStampedTFToMsg(quat,cursorPose.pose.orientation);
-        //cursorPose.pose.orientation.y = transformStamped.rotation.y;
-        //cursorPose.pose.orientation.z = transformStamped.rotation.z;
-
+       	cursorPose.pose.position.x = state->position[0];
+       	cursorPose.pose.position.y = state->position[1];
+       	cursorPose.pose.position.z = state->position[2];
         cursorPose.header.frame_id = "/base";
 
         cursor_location_pub.publish(cursorPose);
