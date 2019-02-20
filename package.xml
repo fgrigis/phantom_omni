@@ -13,6 +13,8 @@
   <build_depend>roscpp</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
+  <build_depend>omni_description</build_depend>
+  <build_depend>PhantomButtonEvent</build_depend>
   <build_depend>genmsg</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>tf</build_depend>
@@ -24,6 +26,8 @@
 
   <run_depend>roscpp</run_depend>
   <run_depend>std_msgs</run_depend>
+  <run_depend>omni_description</run_depend>
+  <run_depend>PhantomButtonEvent</run_depend>
   <run_depend>genmsg</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>geometry_msgs</run_depend>
@@ -31,7 +35,6 @@
   <run_depend>rosconsole</run_depend>
   <run_depend>urdf</run_depend>
   <run_depend>sensor_msgs</run_depend>
-  <run_depend>omni_description</run_depend>
   <run_depend>mag_msgs</run_depend>
 
 

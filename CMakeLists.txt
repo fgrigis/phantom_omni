@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(phantom_omni)
 
-find_package(catkin REQUIRED COMPONENTS roscpp std_msgs geometry_msgs genmsg rosconsole tf urdf mag_msgs)
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs geometry_msgs genmsg omni_description rosconsole tf urdf mag_msgs)
 
 add_message_files(FILES PhantomButtonEvent.msg OmniFeedback.msg )
 
 generate_messages(DEPENDENCIES geometry_msgs)
 
-catkin_package(CATKIN_DEPENDS roscpp std_msgs geometry_msgs genmsg rosconsole tf urdf)
+catkin_package(CATKIN_DEPENDS roscpp std_msgs geometry_msgs omni_description genmsg rosconsole tf urdf)
 
 include_directories(
         ${catkin_INCLUDE_DIRS}
@@ -21,5 +21,3 @@ add_executable(omni src/omni.cpp)
 add_dependencies( ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(omni HD HDU rt ncurses ${catkin_LIBRARIES})
-
-
